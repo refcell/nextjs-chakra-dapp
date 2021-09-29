@@ -1,11 +1,9 @@
-# Nextjs, Typescript, Chakra-ui Dapp Template
+# Nextjs, Typescript, Chakra-ui Dapp and Smart Contract Template
 
 Built with
 [Nextjs](https://nextjs.org/),
 [Typescript](https://www.typescriptlang.org/),
 and [chakra-ui](https://github.com/chakra-ui/chakra-ui).
-
-
 
 ## Using the template
 
@@ -31,6 +29,7 @@ You can start editing the page by modifying src/pages/index.js. The page auto-up
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/abigger87/nextjs-chakra-dapp&project-name=nextjs-chakra-dapp&repository-name=nextjs-chakra-dapp)
 
+`
 
 ## How to use
 
@@ -49,9 +48,10 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-
 #### Chakra-ui
 
 [Chakra-ui Documentation](https://chakra-ui.com/docs/getting-started) - learn about Chakra-ui features and API.
 
+## Smart Contracts
 
+Created with the best smart contract framework: [Dapptools](https://dapp.tools/).

@@ -3,6 +3,7 @@
   "description": "A template web3 Dapp based on nextjs and chakra-ui.",
   "author": "Andreas Bigger <abigger@nascent.xyz>",
   "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

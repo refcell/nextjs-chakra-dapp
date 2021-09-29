@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import Web3, { utils } from "web3";
+import Web3 from "web3";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";

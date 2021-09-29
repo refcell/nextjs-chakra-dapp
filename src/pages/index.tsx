@@ -11,7 +11,9 @@ const Index = () => (
   <Container height="auto" minHeight="100%">
     <Main>
       <Hero title={'Nextjs Chakra Dapp Template'} />
-      {/* MainSection stores logic for wallet connection - this probably should be pulled out into a main container */}
+      {/*
+        // ** MainSection stores logic for wallet connection - this probably should be pulled out into a main container
+      */}
       <MainSection />
     </Main>
 
