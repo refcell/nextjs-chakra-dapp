@@ -1,7 +1,7 @@
 import {
   Hero,
   Container,
-  Terminal,
+  MainSection,
   Main,
   DarkModeSwitch,
   CTA
@@ -11,7 +11,8 @@ const Index = () => (
   <Container height="auto" minHeight="100%">
     <Main>
       <Hero title={'Nextjs Chakra Dapp Template'} />
-      <Terminal />
+      {/* MainSection stores logic for wallet connection - this probably should be pulled out into a main container */}
+      <MainSection />
     </Main>
 
     <DarkModeSwitch />
