@@ -1,3 +1,4 @@
+export { default as ConnectButtons } from './ConnectButtons';
 export { default as Container } from './Container';
 export { default as CTA } from "./CTA";
 export { default as DarkModeSwitch } from "./DarkModeSwitch";

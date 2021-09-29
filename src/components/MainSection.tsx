@@ -7,6 +7,8 @@ import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import cn from "classnames";
 import debounce from "debounce";
 
+import { ConnectButtons } from './';
+
 const mainnetContractAddress = process.env.DEPLOYED_MAINNET_CONTRACT_ADDRESS;
 const rinkebyContractAddress = process.env.DEPLOYED_RINKEBY_CONTRACT_ADDRESS;
 
@@ -20,7 +22,6 @@ function getLibrary(provider) {
 }
 
 const MainSection = () => {
-
   const { activate, active, account, library, networkId } = useWeb3React();
 
   const [contractAddress, setContractAddress] = useState(networkId === 1 ? mainnetContractAddress : rinkebyContractAddress);
