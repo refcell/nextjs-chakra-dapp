@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             html, body {
               min-height: 100%;
               height: 100%;
+              font-family: Azeret Mono, monospace;
             }
 
             #__next {

@@ -7,7 +7,7 @@ import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import cn from "classnames";
 import debounce from "debounce";
 
-import { ConnectButtons } from './';
+import { ConnectButtons, MintButton } from './';
 
 const mainnetContractAddress = process.env.DEPLOYED_MAINNET_CONTRACT_ADDRESS;
 const rinkebyContractAddress = process.env.DEPLOYED_RINKEBY_CONTRACT_ADDRESS;
@@ -38,7 +38,6 @@ const MainSection = () => {
   useEffect(() => {
     if (!library) return;
 
-    console.log("Network Id:", networkId);
     setContractAddress(networkId === 1 ? mainnetContractAddress : rinkebyContractAddress);
     const contract = new library.eth.Contract(abi, contractAddress);
     setContract(contract);
