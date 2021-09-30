@@ -25,7 +25,6 @@ const MainSection = () => {
   const { activate, active, account, library, networkId } = useWeb3React();
 
   const [contractAddress, setContractAddress] = useState(networkId === 1 ? mainnetContractAddress : rinkebyContractAddress);
-  console.log("Using crontractAddress:", contractAddress);
   const [working, setWorking] = useState(false);
   const [contract, setContract] = useState(null);
   const [error, setError] = useState(null);
@@ -65,7 +64,7 @@ const MainSection = () => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       {!active && (
-        <ConnectButtons setWorking={setWorking} activate={activate} />
+        <ConnectButtons injected={injected} setWorking={setWorking} activate={activate} />
       )}
       {active && (
         <div className="flex flex-col space-y-4 md:max-w-md">

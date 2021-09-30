@@ -1,10 +1,7 @@
-import { Flex, Heading, Container } from '@chakra-ui/react'
+import { Flex, Heading, Container, Image, Button } from '@chakra-ui/react'
 import cn from "classnames";
 
-const ConnectButtons = ({ activate, setWorking }) => {
-  const cls =
-    "btn bg-white dark:bg-gray-900 rounded-full inline-flex images-center space-x-2 shadow-md border w-100 md:w-auto text-base font-normal";
-
+const ConnectButtons = ({ injected, activate, setWorking }) => {
   return (
     <Flex
       justifyContent="center"
@@ -17,29 +14,42 @@ const ConnectButtons = ({ activate, setWorking }) => {
         flexDirection="column"
         width="100%"
       >
-        <Heading as="h3" size="lg">Connect wallet</Heading>
-        <div className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-2">
-          <button
+        <Heading mx={8} as="h4" size="lg">Connect wallet</Heading>
+        <Container
+          flexDirection="row"
+          width="100%"
+          justifyContent={'center'}
+          display={'flex'}
+        >
+          <Button
+            variant="outline"
+            colorScheme="orange"
+            mt={4}
+            mx={'1em'}
+            w={'100%'}
             onClick={() => {
               setWorking(true);
               activate(injected);
             }}
-            className={cn(cls, "text-yellow-600 border-yellow-600")}
-          >
-            <img src="/metamask-fox.svg" className="h-5 w-5" />
-            <span>Metamask</span>
-          </button>
-          <button
+            >
+            <Image m={'0.3em'} h={5} w={5} src="/metamask-fox.svg" />
+            Metamask
+          </Button>
+          <Button
+            variant="outline"
+            colorScheme="blue"
+            mt={4}
+            mx={'1em'}
+            w={'100%'}
             onClick={() => {
               setWorking(true);
-              activate(wcConnector);
+              activate(injected);
             }}
-            className={cn(cls, "text-blue-500 border-blue-600")}
-          >
-            <img src="/walletconnect-logo.svg" className="h-5 w-5" />
-            <span>WalletConnect</span>
-          </button>
-        </div>
+            >
+            <Image m={'0.3em'} h={5} w={5} src="/walletconnect-logo.svg" />
+            WalletConnect
+          </Button>
+        </Container>
       </Container>
     </Flex>
   );
