@@ -1,157 +1,120 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Web3 from "web3";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { InjectedConnector } from "@web3-react/injected-connector";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
-import cn from "classnames";
-import debounce from "debounce";
-
+import Web3Modal from "web3modal";
 import { ConnectButtons, MintButton } from './';
-
-const mainnetContractAddress = process.env.DEPLOYED_MAINNET_CONTRACT_ADDRESS;
-const rinkebyContractAddress = process.env.DEPLOYED_RINKEBY_CONTRACT_ADDRESS;
-
-const injected = new InjectedConnector({ supportedChainIds: [1, 3, 4, 5, 42] });
-const wcConnector = new WalletConnectConnector({
-  infuraId: "cddde80366fc42c2ac9202c6a0f9850b",
-});
-
-function getLibrary(provider) {
-  return new Web3(provider);
-}
+import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
+import { Button, Container, useColorMode } from "@chakra-ui/react";
+import styled from "@emotion/styled";
+import { ProviderOptions } from "src/utils";
+import { Web3Provider } from "@ethersproject/providers";
 
 const MainSection = () => {
-  const { activate, active, account, library, networkId } = useWeb3React();
-
-  const [contractAddress, setContractAddress] = useState(networkId === 1 ? mainnetContractAddress : rinkebyContractAddress);
-  const [working, setWorking] = useState(false);
-  const [contract, setContract] = useState(null);
-  const [error, setError] = useState(null);
-  const [yearTotal, setYearTotal] = useState(0);
-  const [friendAddress, setFriendAddress] = useState("");
-  const [realFriendAddress, setRealFriendAddress] = useState("");
-  const [transactionHash, setTransactionHash] = useState(null);
-  const friendField = useRef();
+  const { colorMode } = useColorMode();
+  const [provider, setProvider] = useState(null);
+  const [web3, setWeb3] = useState(null);
+  const [web3Modal, setWeb3Modal] = useState(null);
+  const [account, setAccount] = useState(null);
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    if (!library) return;
+    if(provider) {
+      setConnected(provider.isConnected());
+    }
+  }, [provider])
 
-    setContractAddress(networkId === 1 ? mainnetContractAddress : rinkebyContractAddress);
-    const contract = new library.eth.Contract(abi, contractAddress);
-    setContract(contract);
+  useEffect(() => {
+    if(window !== undefined) {
+      setWeb3Modal(new Web3Modal({
+        cacheProvider: false,
+        providerOptions: ProviderOptions,
+        theme: colorMode == 'light' ? 'light' : 'dark'
+      }));
+    }
+  }, []);
 
-    contract.methods
-      .currentYearTotalSupply()
-      .call()
-      .then((res) => {
-        setYearTotal(res);
-      }, handleError);
+  // ** Function to get the current account
+  const getAccount = async (curr_web3) => {
+    const accounts = await curr_web3.eth.getAccounts();
+    setAccount(accounts[0]);
+  }
 
-    setWorking(false);
-  }, [account, networkId]);
+  // ** Function to open web3 modal
+  const openModal = async () => {
+    if(web3Modal) {
+      const new_provider = await web3Modal.connect();
+      const new_web3 = new Web3(new_provider);
+      getAccount(new_web3);
 
-  const debouncedLookup = debounce(async () => {
-    setWorking(true);
+      // ** Subscribe to accounts change
+      new_provider.on("accountsChanged", (accounts) => {
+        console.log("account changed!")
+        getAccount(new_web3);
+      });
+
+      // ** Subscribe to chainId change
+      new_provider.on("chainChanged", (chainId) => {
+        console.log("chain changed!");
+        getAccount(new_web3);
+      });
+
+      // ** Subscribe to networkId change
+      new_provider.on("networkChanged", (networkId) => {
+        console.log("network changed!");
+        getAccount(new_web3);
+      });
+
+      // ** Update State
+      setProvider(new_provider);
+      setWeb3(new_web3);
+    }
+  }
+
+  // ** Function to disconnect web3 account
+  const disconnectModal = async () => {
+    console.log("in disconnect modal func");
+    console.log("provider:", provider);
     try {
-      const address = await library.eth.ens.getAddress(friendAddress);
-      setRealFriendAddress(address);
-    } catch {}
+      console.log("web3 current provider:", web3.currentProvider);
+      console.log(web3Modal);
+      await web3.currentProvider.disconnect();
+      await web3Modal.clearCachedProvider();
+      setProvider(null);
+    } catch (e) {
+      console.error("Failed to close provider:", e)
+    }
 
-    setWorking(false);
-  }, 1000);
+  }
 
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      {!active && (
-        <ConnectButtons injected={injected} setWorking={setWorking} activate={activate} />
-      )}
-      {active && (
-        <div className="flex flex-col space-y-4 md:max-w-md">
-          <MintButton
-            disabled={working}
-            onClick={craftForSelf}
-            className="rounded-full"
-          >
-            Mint Rustacean (Ξ0.02)
-          </MintButton>
-
-          <div className="flex flex-col">
-            <input
-              ref={friendField}
-              className="input text-sm md:text-lg rounded-2xl rounded-b-none"
-              value={friendAddress}
-              onChange={(event) => {
-                setFriendAddress(event.target.value);
-              }}
-              placeholder={"0x… or ENS domain"}
-            />
-            <MintButton
-              disabled={working}
-              className="rounded-2xl rounded-t-none"
-              onClick={craftForFriend}
-            >
-              Mint for a friend (Ξ0.02)
-            </MintButton>
-          </div>
-
-          {realFriendAddress && (
-            <div className="text-sm truncate">
-              Sending to{" "}
-              <code className="bg-gray-100" title={realFriendAddress}>
-                {realFriendAddress}
-              </code>
-            </div>
-          )}
-
-          <div className="h-2"></div>
-
-          {transactionHash && (
-            <div className="text-green-500 text-xs flex flex-col space-y-2">
-              <span>Success!</span>
-              <a
-                href={`https://etherscan.io/tx/${transactionHash}`}
-                className="btn font-normal bg-gray-100 rounded-full shadow-md"
-              >
-                View transaction on Etherscan
-              </a>
-            </div>
-          )}
-          {error && (
-            <div className="text-red-500 text-xs">{error.message}</div>
-          )}
-
-          <div className="text-sm space-y-2 leading-normal">
-            <p>
-              <strong>Rustaceans are Ξ0.02</strong>{" "}
-            </p>
-            <p>
-              You can mint one for yourself or for a friend. The result will
-              be different for each rustacean depending on its number and
-              destination address.
-            </p>
-
-            <p>
-              {yearTotal}/1,000 rustaceans have been minted in{" "}
-              {new Date().getFullYear()}.
-            </p>
-
-            <progress
-              className="w-full"
-              max={1000}
-              value={yearTotal}
-              disabled={working}
-            />
-
-            <p>
-              If all 1,000 rustaceans are minted in a year, holders of both Cranes and Rustaceans get to mint
-              a <em>Special Edition</em> [redacted] for free.
-            </p>
-          </div>
-        </div>
-      )}
+    <Web3ReactProvider getLibrary={() => web3}>
+      <NoMarginContainer
+        position='absolute'
+        margin='0'
+        padding='0'
+        top='1rem'
+        right='1rem'
+        justifyContent='right'
+        d='flex'
+      >
+        <Button
+          width='auto'
+          maxWidth='300px'
+          ml='auto'
+          cursor='pointer'
+          variant='outline'
+          colorScheme='blue.600'
+          color='blue.600'
+          onClick={!connected ? openModal : disconnectModal}
+        >
+          {!connected ? 'Connect Wallet' : 'Disconnect Wallet'}
+        </Button>
+      </NoMarginContainer>
     </Web3ReactProvider>
   )
 }
+
+const NoMarginContainer = styled(Container)`
+  margin-top: 0 !important;
+`;
 
 export default MainSection;

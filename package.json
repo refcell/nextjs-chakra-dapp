@@ -33,7 +33,8 @@
     "react-console-emulator": "^5.0.1",
     "react-dom": "^17.0.2",
     "styled-components": "^5.3.1",
-    "web3": "^1.5.3"
+    "web3": "^1.5.3",
+    "web3modal": "^1.9.4"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
@@ -44,7 +45,6 @@
     "@types/node": "^14.6.0",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
-    "typescript": "4.3.2",
     "chai": "^4.3.4",
     "dotenv": "^10.0.0",
     "eslint": "7.32.0",
@@ -53,7 +53,8 @@
     "ethers": "^5.4.6",
     "hardhat": "^2.6.4",
     "prettier": "^2.4.0",
-    "prettier-plugin-solidity": "^1.0.0-beta.18"
+    "prettier-plugin-solidity": "^1.0.0-beta.18",
+    "typescript": "4.3.2"
   },
   "prettier": {
     "overrides": [

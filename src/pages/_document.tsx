@@ -7,6 +7,7 @@ export default class Document extends NextDocument {
       <Html >
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
+          <title>Nextjs Chakra Dapp Template</title>
         </Head>
         <body>
           {/* Make Color mode to persists when you refresh the page. */}

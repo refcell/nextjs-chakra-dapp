@@ -17,6 +17,7 @@ const theme = extendTheme({
   },
   colors: {
     black: '#16161D',
+    white: 'var(--chakra-colors-whiteAlpha-700)'
   },
   fonts,
   breakpoints,
