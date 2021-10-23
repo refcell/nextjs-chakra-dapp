@@ -1,5 +1,5 @@
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
-import { ColorModeScript, useColorMode } from '@chakra-ui/react'
+import { ColorModeScript } from '@chakra-ui/react'
 
 export default class Document extends NextDocument {
   render() {
@@ -8,6 +8,11 @@ export default class Document extends NextDocument {
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
           <title>Nextjs Chakra Dapp Template</title>
+          <meta
+            name="description"
+            content="Nextjs Chakra Dapp Template."
+          />
+          <meta name="author" content="Andreas Bigger <andreas@nascent.xyz>" />
         </Head>
         <body>
           {/* Make Color mode to persists when you refresh the page. */}
