@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-import { ConnectButtons, MintButton } from './';
+import { ConnectWallet, MintButton } from './';
 import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { Button, Container, useColorMode } from "@chakra-ui/react";
 import styled from "@emotion/styled";

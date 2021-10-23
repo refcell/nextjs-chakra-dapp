@@ -1,25 +1,25 @@
 import {
-  Hero,
-  Container,
-  MainSection,
+  Navbar,
   Main,
-  DarkModeSwitch,
-  CTA
-} from '../components';
+  GradientContainer,
+  LandingPageMain,
+  FAQModal,
+} from "src/components";
 
-const Index = () => (
-  <Container height="auto" minHeight="100%">
-    <Main>
-      <Hero title={'Nextjs Chakra Dapp Template'} />
-      {/*
-        // ** MainSection stores logic for wallet connection - this probably should be pulled out into a main container
-      */}
-      <MainSection />
-    </Main>
+import { useDisclosure } from "@chakra-ui/react";
 
-    <DarkModeSwitch />
-    <CTA />
-  </Container>
-)
+const Index = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-export default Index
+  return (
+    <GradientContainer>
+      <Main>
+        <Navbar onOpen={onOpen} launchApp={true} />
+        <LandingPageMain />
+        <FAQModal isOpen={isOpen} onClose={onClose} />
+      </Main>
+    </GradientContainer>
+  );
+};
+
+export default Index;

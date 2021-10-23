@@ -18,7 +18,7 @@ const ProviderOptions = {
     },
     package: WalletConnectProvider,
     options: {
-      infuraId: "cddde80366fc42c2ac9202c6a0f9850b"
+      infuraId: process.env.INFURA_PROJECT_ID
     }
   }
 };
